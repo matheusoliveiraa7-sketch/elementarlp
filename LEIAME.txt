@@ -1,0 +1,47 @@
+LANDING PAGE — ELEMENTAR (site estático, pronto para o Vercel)
+
+Arquivos
+- index.html ........ a página
+- css/styles.css .... todo o visual (cores e tipografia do kit de marca no topo, em :root)
+- js/main.js ........ interações, demos animadas, formulário -> WhatsApp
+- assets/brand/ ..... favicon e imagem de compartilhamento (og-elementar.png)
+
+Como visualizar
+- Dê dois cliques em index.html (as fontes vêm do Google Fonts, precisa de internet)
+- Ou rode um servidor local na pasta "site" (ex.: powershell -File ..\.claude\serve.ps1) e abra http://localhost:5173
+
+Como publicar no Vercel
+1. Suba o conteúdo da pasta "site" em um repositório do GitHub (ou rode "vercel" dentro da pasta "site").
+   Se subir o projeto inteiro, em Settings > General defina Root Directory = site.
+2. Add New > Project > importe. Framework Preset: "Other". Build Command e Output Directory em branco.
+3. Settings > Domains para adicionar o domínio.
+4. Depois do primeiro deploy: troque o og:image do index.html pelo endereço completo e ative Analytics no projeto.
+- vercel.json já traz cabeçalhos de segurança e cache; robots.txt libera a indexação.
+
+Pendências para preencher
+- js/main.js, constante PRIVACY_URL: cole o link da política de privacidade quando existir.
+  Enquanto estiver vazia, a página mostra "Política de privacidade (em breve)".
+- index.html, meta og:image: troque pelo endereço completo da imagem depois de publicar
+  (ex.: https://seudominio.com.br/assets/brand/og-elementar.png).
+
+Análise de visitas e cliques (Vercel Web Analytics + Google Analytics 4)
+Vercel Web Analytics (visitas e páginas; sem cookies, sem aviso):
+1. No Vercel: abra o projeto > Analytics > Enable. Depois faça um novo deploy.
+2. O código já está em js/main.js (ANALYTICS.VERCEL = true) e só roda no site publicado, nunca em localhost.
+   No plano gratuito ele mostra visitas, páginas e origens, mas não eventos de clique personalizados.
+
+Google Analytics 4 (cliques em WhatsApp e envio do formulário):
+1. Crie a conta gratuita em analytics.google.com.
+2. Em js/main.js, preencha ANALYTICS.GA4_ID ("G-XXXXXXXXXX").
+3. Pronto: o aviso de cookies passa a aparecer e o GA4 só carrega se o visitante aceitar.
+   Enquanto o ID estiver vazio, nada do GA4 é carregado e o aviso não aparece.
+- Eventos enviados ao GA4: whatsapp_click (com o local da página), instagram_click,
+  servico_clique e generate_lead (envio do formulário, só com o serviço escolhido; nunca nome nem telefone).
+- No GA4, marque whatsapp_click e generate_lead como "eventos-chave" (Admin > Eventos) para contá-los como conversões.
+- Nos links dos anúncios, use UTM (utm_source, utm_medium, utm_campaign) para ver qual campanha trouxe cada visita.
+- Atualize a política de privacidade citando o Google Analytics (cookies) e o Vercel Web Analytics (sem cookies).
+- O rodapé ganha "Preferências de cookies" para o visitante mudar a escolha.
+
+Observações
+- O formulário não guarda dados: monta a mensagem e abre o WhatsApp (5591991966282).
+- Todos os números dos painéis são ilustrativos e estão identificados como tal na página.
